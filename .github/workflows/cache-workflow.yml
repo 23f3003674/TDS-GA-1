@@ -1,0 +1,29 @@
+name: Cache Prime Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  cache-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create dummy cache file
+        run: |
+          mkdir -p ~/.cache/demo
+          echo "Primed by Krishna" > ~/.cache/demo/primed.txt
+
+      - name: prime-cache-5ab0d8c
+        id: cache-step
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/demo
+          key: cache-5ab0d8c
+
+      - name: Show cache result
+        run: |
+          echo "Cache hit: ${{ steps.cache-step.outputs.cache-hit }}"
